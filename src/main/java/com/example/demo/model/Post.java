@@ -18,10 +18,12 @@ public class Post {
     private LocalDate post_date;
     private String post_title;
 
-    public Post(String post_title, String post_content) {
+    public Post(String post_title, String post_content,List<Category> category, List<Comment> comment) {
         this.post_title = post_title;
         this.post_content = post_content;
         this.post_date = LocalDate.now();
+        this.categoryList = category;
+        this.commentList = comment;
     }
 
     public String getPost_title() {

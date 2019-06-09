@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.model.Comment;
 import com.example.demo.model.Post;
 import com.example.demo.repositories.CommentRepository;
+import com.example.demo.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ import java.util.List;
 public class CommentController {
     @Autowired
     CommentRepository commentRepository;
-
+    @Autowired
+    PostRepository postRepository;
 //    @PostMapping("/comments")
 //    public ResponseEntity addComment(@RequestParam Comment comment) {
 //        commentRepository.save(comment);
@@ -27,16 +29,25 @@ public class CommentController {
         commentRepository.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
-
-    @GetMapping("/showComment")
-    public ArrayList<Comment> getAllComments() {
-        Iterable<Comment> comment = commentRepository.findAll();
-        return (ArrayList<Comment>) comment;
+    @GetMapping("/showComment/{id}")
+    public List<Comment> getPostById(@PathVariable int id){
+        Post post= postRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        return post.getCommentList();
     }
-    @RequestMapping(path = "/comment", method = RequestMethod.POST)
+
+//    @GetMapping("/showComment")
+//    public ArrayList<Comment> getAllComments() {
+//        Iterable<Comment> comment = commentRepository.findAll();
+//        return (ArrayList<Comment>) comment;
+//    }
+    @RequestMapping(path = "/comment/post/{id}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody String addComment(@RequestParam String comment_content) {
+    public @ResponseBody String addComment(@RequestParam String comment_content, @PathVariable int id ) {
+        Post post= postRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        List<Comment> list = post.getCommentList();
         Comment comment = new Comment(comment_content);
+        list.add(comment);
+        post.setCommentList(list);
         commentRepository.save(comment);
         return String.valueOf(comment.getComment_id());
     }
