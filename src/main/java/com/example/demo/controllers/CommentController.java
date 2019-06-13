@@ -23,9 +23,14 @@ public class CommentController {
 //    public ResponseEntity addComment(@RequestParam Comment comment) {
 //        commentRepository.save(comment);
 //        return new ResponseEntity(HttpStatus.OK);
-//    }
+ //   }
     @DeleteMapping("/comments/{id}")
     public ResponseEntity deleteComment(@PathVariable int id){
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Post post = comment.getPost();
+        List<Comment> commentList = post.getCommentList();
+        commentList.remove(comment);
+        post.setCommentList(commentList);
         commentRepository.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -38,14 +43,14 @@ public class CommentController {
 //    @GetMapping("/showComment")
 //    public ArrayList<Comment> getAllComments() {
 //        Iterable<Comment> comment = commentRepository.findAll();
-//        return (ArrayList<Comment>) comment;
-//    }
+//        return String.valueOf((ArrayList<Comment>) comment);
+//   }
     @RequestMapping(path = "/comment/post/{id}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody String addComment(@RequestParam String comment_content, @PathVariable int id ) {
         Post post= postRepository.findById(id).orElseThrow(() -> new RuntimeException());
         List<Comment> list = post.getCommentList();
-        Comment comment = new Comment(comment_content);
+        Comment comment = new Comment(comment_content,post);
         list.add(comment);
         post.setCommentList(list);
         commentRepository.save(comment);

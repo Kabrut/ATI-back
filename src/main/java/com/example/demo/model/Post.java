@@ -17,13 +17,19 @@ public class Post {
     @GeneratedValue
     private LocalDate post_date;
     private String post_title;
+    private String post_content;
+    @ManyToMany
+    private List<Category> categoryList;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Comment> commentList;
 
-    public Post(String post_title, String post_content,List<Category> category, List<Comment> comment) {
+
+    public Post(String post_title, String post_content,List<Category> category) {
         this.post_title = post_title;
         this.post_content = post_content;
         this.post_date = LocalDate.now();
         this.categoryList = category;
-        this.commentList = comment;
+        this.commentList = new ArrayList<>();
     }
 
     public String getPost_title() {
@@ -33,12 +39,6 @@ public class Post {
     public void setPost_title(String post_title) {
         this.post_title = post_title;
     }
-
-    private String post_content;
-    @ManyToMany
-    private List<Category> categoryList;
-    @OneToMany
-    private List<Comment> commentList;
 
     public int getPost_id() {
         return post_id;
@@ -89,6 +89,7 @@ public class Post {
     }
 
     public Post() {
+        this.commentList = new ArrayList<>();
     }
 
     public Post(int post_id, User user, LocalDate post_date, String post_content, Category category, Comment comment) {

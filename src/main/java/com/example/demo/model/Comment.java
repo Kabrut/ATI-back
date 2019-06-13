@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,12 +13,24 @@ public class Comment {
     private User user;
     private String comment_content;
     private boolean report;
+    @JsonIgnore
+    @ManyToOne
+    private Post post;
 
 
 
-    public Comment(String comment_content) {
+    public Comment(String comment_content, Post post) {
         this.comment_content = comment_content;
+        this.post = post;
         this.report = false;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public int getComment_id() {

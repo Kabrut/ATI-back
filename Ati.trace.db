@@ -1612,3 +1612,15 @@ values ('2','Informacje'',3','Ostrzeżenia') [21002-199]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
+2019-06-12 21:49:24 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DELETE *[*] FROM COMMENT "; oczekiwano "identifier"
+Syntax error in SQL statement "DELETE *[*] FROM COMMENT "; expected "identifier"; SQL statement:
+delete * FROM COMMENT [42001-199]
+2019-06-12 21:49:40 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DELETE POST_COMMENT_LIST  FROM[*] COMMENT "
+Syntax error in SQL statement "DELETE POST_COMMENT_LIST  FROM[*] COMMENT "; SQL statement:
+delete POST_COMMENT_LIST  FROM COMMENT [42000-199]
+2019-06-12 21:50:12 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "DELETE *[*] FROM POST_COMMENT_LIST "; oczekiwano "identifier"
+Syntax error in SQL statement "DELETE *[*] FROM POST_COMMENT_LIST "; expected "identifier"; SQL statement:
+delete * FROM POST_COMMENT_LIST [42001-199]
