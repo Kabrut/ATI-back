@@ -16,11 +16,9 @@ import java.util.List;
 @RestController
 @CrossOrigin
 public class PostController {
+
     @Autowired
     PostRepository postRepository;
-
-
-
 
     @PostMapping(path = "/posts")
     public ResponseEntity addPost(@RequestBody Post post) {

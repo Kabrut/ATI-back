@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.example.demo.model.User;
 import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 public class UserController {
 @Autowired
@@ -42,6 +41,14 @@ public class UserController {
         User user = new User(login,name,surname,password,email);
         userRepository.save(user);
         return user.getLogin();
+    }
+
+    @PostMapping("/login/{login}-{password}")
+    public boolean auth(@PathVariable String login, @PathVariable String password){
+        User user=userRepository.findByLogin(login);
+        if (user != null && user.getPassword().equals(password)){
+            return true;
+        }else return false;
     }
 
 }
