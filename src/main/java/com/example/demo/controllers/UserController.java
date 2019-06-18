@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class UserController {
@@ -18,6 +21,15 @@ public class UserController {
 //        userRepository.save(user);
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
+    @GetMapping("/loggedin/{login}")
+    public List<User> getUser(@PathVariable String login){
+        User user=userRepository.findByLogin(login);
+        ArrayList<User> userlist = new ArrayList<>();
+        userlist.add(user);
+            return userlist;
+
+    }
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User userDetails) {
         User user = userRepository.findByLogin(userDetails.getLogin());
@@ -44,11 +56,13 @@ public class UserController {
     }
 
     @PostMapping("/login/{login}-{password}")
-    public boolean auth(@PathVariable String login, @PathVariable String password){
+    public String auth(@PathVariable String login, @PathVariable String password){
         User user=userRepository.findByLogin(login);
         if (user != null && user.getPassword().equals(password)){
-            return true;
-        }else return false;
+            return login;
+        }else return user.getName();
     }
+
+
 
 }

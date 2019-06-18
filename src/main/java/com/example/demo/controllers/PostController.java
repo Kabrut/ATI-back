@@ -40,8 +40,8 @@ public class PostController {
     }
     @RequestMapping(path = "/post", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody String addPost(@RequestParam String post_title, @RequestParam String post_content, @RequestParam List<Category> categoryList) {
-        Post post = new Post(post_title, post_content, categoryList);
+    public @ResponseBody String addPost(@RequestParam String post_title, @RequestParam String post_content, @RequestParam List<Category> categoryList, @RequestParam String login) {
+        Post post = new Post(post_title, post_content, categoryList, login);
         postRepository.save(post);
         return String.valueOf(post.getPost_date());
     }

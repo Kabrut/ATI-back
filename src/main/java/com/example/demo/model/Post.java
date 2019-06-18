@@ -12,7 +12,7 @@ public class Post {
     @Id
     @GeneratedValue
     private int post_id;
-    @ManyToOne
+    @OneToOne
     private User user;
     @GeneratedValue
     private LocalDate post_date;
@@ -24,12 +24,13 @@ public class Post {
     private List<Comment> commentList;
 
 
-    public Post(String post_title, String post_content,List<Category> category) {
+    public Post(String post_title, String post_content,List<Category> category, User user) {
         this.post_title = post_title;
         this.post_content = post_content;
         this.post_date = LocalDate.now();
         this.categoryList = category;
         this.commentList = new ArrayList<>();
+        this.user = User.user;
     }
 
     public String getPost_title() {
